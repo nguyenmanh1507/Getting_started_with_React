@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JSX vs React.DOM</title
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+<body>
+
+  <!-- Container node -->
+  <div id="jsx"></div>
+
+  <!-- Container node -->
+  <div id="dom"></div>
+
+  <script src="http://fb.me/react-0.11.1.js"></script>
+  <script src="http://fb.me/JSXTransformer-0.11.1.js"></script>
+  <script type="text/jsx">
+    /** @jsx React.DOM */
+    var MessageBoxJSX = React.createClass({
+      render: function() {
+        return (
+          <div className="container">
+            <h1>Hello, React JSX</h1>
+            <SubMessage />
+          </div>
+        );
+      }
+    });
+
+    var MessageBoxDOM = React.createClass({
+      render: function() {
+        return React.DOM.div(
+          {className: 'container'},
+          React.DOM.h1(null, 'Hello React DOM'),
+          SubMessage(null)
+        );
+      }
+    });
+
+    var SubMessage = React.createClass({
+      render: function() {
+        return (
+          <small>Its good to see you</small>
+        );
+      }
+    });
+
+    var reactComponentDOM = React.renderComponent(
+      MessageBoxDOM(null),
+      document.getElementById('dom')
+    );
+
+    var reactComponentJSX = React.renderComponent(
+      <MessageBoxJSX />,
+      document.getElementById('jsx')
+    );
+
+  </script>
+</body>
+</html>
