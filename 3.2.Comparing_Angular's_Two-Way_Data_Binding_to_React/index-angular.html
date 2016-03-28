@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Two-way data binding Angular</title>
+</head>
+<body ng-app="binder">
+
+  <div ng-controller="BindCtrl">
+    <input type="text" ng-model="payment">
+    <input type="text" ng-model="payment2">
+    {{total}}
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/g/angularjs@1.5.0"></script>
+  <script>
+    (function(angular) {
+
+      angular.module('binder', [])
+        .controller('BindCtrl', function($scope) {
+          $scope.payment = 0;
+          $scope.payment2 = 0;
+
+          $scope.$watch('payment', function(newValue) {
+            $scope.calculateTotal();
+          });
+
+          $scope.$watch('payment2', function(newValue) {
+            $scope.calculateTotal();
+          });
+
+          $scope.calculateTotal = function() {
+            $scope.total = parseInt($scope.payment, 10) + parseInt($scope.payment2, 10);
+          };
+        })
+      ;
+
+    })(angular);
+  </script>
+</body>
+</html>
