@@ -10,9 +10,9 @@ var React = require('react'),
 var Feed = React.createClass({
   getInitialState: function() {
     var FEED_ITEMS = [
-      {key: '1', title: 'Realtime data!', description: 'Firebase is cool', voteCount: 49},
-      {key: '2', title: 'JavasScript is fun', description: 'Lexical scoping FTW', voteCount: 34},
-      {key: '3', title: 'Coffee makes you awake', description: 'Drink responsibly', voteCount: 15}
+      {id: '1', title: 'Realtime data!', description: 'Firebase is cool', voteCount: 49},
+      {id: '2', title: 'JavasScript is fun', description: 'Lexical scoping FTW', voteCount: 34},
+      {id: '3', title: 'Coffee makes you awake', description: 'Drink responsibly', voteCount: 15}
     ];
     return {
       items: FEED_ITEMS,
@@ -35,15 +35,14 @@ var Feed = React.createClass({
   onVote: function(item) {
     var items = _.uniq(this.state.items),
         index = _.findIndex(items, function(feedItems) {
-          return feedItems.key === item.key;
-        }),
-        oldObj = items[index],
-        newItems = _.pull(items, oldObj)
+          return feedItems.id === item.id;
+        })
     ;
 
-    newItems.push(item);
+    items[index] = item;
+
     this.setState({
-      items: newItems
+      items: items
     });
   },
   render: function() {

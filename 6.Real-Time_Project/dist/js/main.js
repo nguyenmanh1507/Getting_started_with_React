@@ -34251,9 +34251,9 @@ var React = require('react'),
 var Feed = React.createClass({displayName: "Feed",
   getInitialState: function() {
     var FEED_ITEMS = [
-      {key: '1', title: 'Realtime data!', description: 'Firebase is cool', voteCount: 49},
-      {key: '2', title: 'JavasScript is fun', description: 'Lexical scoping FTW', voteCount: 34},
-      {key: '3', title: 'Coffee makes you awake', description: 'Drink responsibly', voteCount: 15}
+      {id: '1', title: 'Realtime data!', description: 'Firebase is cool', voteCount: 49},
+      {id: '2', title: 'JavasScript is fun', description: 'Lexical scoping FTW', voteCount: 34},
+      {id: '3', title: 'Coffee makes you awake', description: 'Drink responsibly', voteCount: 15}
     ];
     return {
       items: FEED_ITEMS,
@@ -34276,15 +34276,14 @@ var Feed = React.createClass({displayName: "Feed",
   onVote: function(item) {
     var items = _.uniq(this.state.items),
         index = _.findIndex(items, function(feedItems) {
-          return feedItems.key === item.key;
-        }),
-        oldObj = items[index],
-        newItems = _.pull(items, oldObj)
+          return feedItems.id === item.id;
+        })
     ;
 
-    newItems.push(item);
+    items[index] = item;
+
     this.setState({
-      items: newItems
+      items: items
     });
   },
   render: function() {
@@ -34357,10 +34356,10 @@ var React = require('react');
 var FeedItem = React.createClass({displayName: "FeedItem",
   vote: function(newCount) {
     this.props.onVote({
-      key: this.props.key,
+      id: this.props.id,
       title: this.props.title,
       description: this.props.description,
-      voteCound: newCount
+      voteCount: newCount
     });
   },
   voteUp: function() {
@@ -34375,7 +34374,8 @@ var FeedItem = React.createClass({displayName: "FeedItem",
   },
   render: function() {
     return (
-      React.createElement("li", {key: this.props.key, className: "list-group-item"}, 
+      React.createElement("li", {className: "list-group-item"}, 
+        React.createElement("span", null, "id: ", this.props.id), 
         React.createElement("span", {className: "badge badge-success"}, this.props.voteCount), 
         React.createElement("h4", null, this.props.title), 
         React.createElement("span", null, this.props.description), 
@@ -34403,7 +34403,7 @@ var FeedList = React.createClass({displayName: "FeedList",
     var feedItems = this.props.items.map(function(item) {
       return (
         React.createElement(FeedItem, {
-          key: item.key, 
+          id: item.id, 
           title: item.title, 
           description: item.description, 
           voteCount: item.voteCount, 

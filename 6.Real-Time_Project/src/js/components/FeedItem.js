@@ -5,10 +5,10 @@ var React = require('react');
 var FeedItem = React.createClass({
   vote: function(newCount) {
     this.props.onVote({
-      key: this.props.key,
+      id: this.props.id,
       title: this.props.title,
       description: this.props.description,
-      voteCound: newCount
+      voteCount: newCount
     });
   },
   voteUp: function() {
@@ -23,7 +23,8 @@ var FeedItem = React.createClass({
   },
   render: function() {
     return (
-      <li key={this.props.key} className="list-group-item">
+      <li className="list-group-item">
+        <span>id: {this.props.id}</span>
         <span className="badge badge-success">{this.props.voteCount}</span>
         <h4>{this.props.title}</h4>
         <span>{this.props.description}</span>
