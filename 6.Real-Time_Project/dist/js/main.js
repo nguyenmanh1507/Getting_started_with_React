@@ -34565,6 +34565,11 @@ var Feed = React.createClass({displayName: "Feed",
   onNewItem: function(newItem) {
     var ref = new Firebase('https://ngmanhvoteit.firebaseio.com/feed');
     ref.push(newItem);
+
+    // Close form
+    this.setState({
+      formDisplayed: false
+    });
   },
   onVote: function(item) {
     var ref = new Firebase('https://ngmanhvoteit.firebaseio.com/feed').child(item.key);
