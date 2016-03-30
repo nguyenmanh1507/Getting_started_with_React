@@ -34373,10 +34373,11 @@ var FeedItem = React.createClass({displayName: "FeedItem",
     this.vote(newCount);
   },
   render: function() {
+    var positiveNegativeClassName = this.props.voteCount >= 0 ? 'badge badge-success' : 'badge badge-danger';
     return (
       React.createElement("li", {className: "list-group-item"}, 
         React.createElement("span", null, "id: ", this.props.id), 
-        React.createElement("span", {className: "badge badge-success"}, this.props.voteCount), 
+        React.createElement("span", {className: positiveNegativeClassName}, this.props.voteCount), 
         React.createElement("h4", null, this.props.title), 
         React.createElement("span", null, this.props.description), 
         React.createElement("span", {className: "pull-right"}, 
