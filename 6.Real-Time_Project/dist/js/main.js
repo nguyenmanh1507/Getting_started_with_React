@@ -34534,7 +34534,10 @@ var React = require('react'),
 
 var Feed = React.createClass({displayName: "Feed",
   loadData: function() {
-    var ref = new Firebase('https://ngmanhvoteit.firebaseio.com/feed');
+    var ref = new Firebase('https://ngmanhvoteit.firebaseio.com/feed'),
+        sorted = []
+    ;
+
     ref.on('value', function(snap) {
       var items = [];
       snap.forEach(function(itemSnap) {
@@ -34543,6 +34546,12 @@ var Feed = React.createClass({displayName: "Feed",
         items.push(item);
       });
 
+      sorted = _.sortBy(items, function(item) {
+        return -item.voteCount;
+      });
+      
+      // if need sorted array
+      // just replace items by sorted
       this.setState({
         items: items
       });
