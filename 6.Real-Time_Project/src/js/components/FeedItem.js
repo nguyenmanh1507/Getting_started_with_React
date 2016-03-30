@@ -5,7 +5,7 @@ var React = require('react');
 var FeedItem = React.createClass({
   vote: function(newCount) {
     this.props.onVote({
-      id: this.props.id,
+      key: this.props.k,
       title: this.props.title,
       description: this.props.description,
       voteCount: newCount
@@ -25,7 +25,6 @@ var FeedItem = React.createClass({
     var positiveNegativeClassName = this.props.voteCount >= 0 ? 'badge badge-success' : 'badge badge-danger';
     return (
       <li className="list-group-item">
-        <span>id: {this.props.id}</span>
         <span className={positiveNegativeClassName}>{this.props.voteCount}</span>
         <h4>{this.props.title}</h4>
         <span>{this.props.description}</span>

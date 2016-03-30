@@ -4,18 +4,32 @@ var React = require('react'),
     ShowAddButton = require('./ShowAddButton'),
     FeedForm = require('./FeedForm'),
     FeedList = require('./FeedList'),
-    _ = require('lodash')
+    _ = require('lodash'),
+    Firebase = require('firebase')
 ;
 
 var Feed = React.createClass({
+  loadData: function() {
+    var ref = new Firebase('https://ngmanhvoteit.firebaseio.com/feed');
+    ref.on('value', function(snap) {
+      var items = [];
+      snap.forEach(function(itemSnap) {
+        item = itemSnap.val();
+        item.key = itemSnap.key();
+        items.push(item);
+      });
+
+      this.setState({
+        items: items
+      });
+    }.bind(this));
+  },
+  componentDidMount: function() {
+    this.loadData();
+  },
   getInitialState: function() {
-    var FEED_ITEMS = [
-      {id: '1', title: 'Realtime data!', description: 'Firebase is cool', voteCount: 49},
-      {id: '2', title: 'JavasScript is fun', description: 'Lexical scoping FTW', voteCount: 34},
-      {id: '3', title: 'Coffee makes you awake', description: 'Drink responsibly', voteCount: 15}
-    ];
     return {
-      items: FEED_ITEMS,
+      items: [],
       formDisplayed: false
     };
   },
@@ -25,25 +39,12 @@ var Feed = React.createClass({
     });
   },
   onNewItem: function(newItem) {
-    var newItems = this.state.items.concat([newItem]);
-    this.setState({
-      items: newItems,
-      formDisplayed: false,
-      key: this.state.items.length
-    });
+    var ref = new Firebase('https://ngmanhvoteit.firebaseio.com/feed');
+    ref.push(newItem);
   },
   onVote: function(item) {
-    var items = _.uniq(this.state.items),
-        index = _.findIndex(items, function(feedItems) {
-          return feedItems.id === item.id;
-        })
-    ;
-
-    items[index] = item;
-
-    this.setState({
-      items: items
-    });
+    var ref = new Firebase('https://ngmanhvoteit.firebaseio.com/feed').child(item.key);
+    ref.update(item);
   },
   render: function() {
     return (
